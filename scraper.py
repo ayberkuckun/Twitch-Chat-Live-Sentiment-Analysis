@@ -21,12 +21,14 @@ while True:
     idx = 0
     try:
         idx = tuples.index(last_tuple)
-        tuples = tuples[idx:]
+        tuples = tuples[idx+1:]
     except:
         pass
     if len(tuples) > 0:
         last_tuple = tuples[-1]
         for tple in tuples:
-            last_message = tple.split(':')[1]
-            print(last_message)
-    time.sleep(1)
+            message = tple.split(':')[1]
+            message = message.strip()
+            if message != '':
+                print(message)
+    time.sleep(0.25)

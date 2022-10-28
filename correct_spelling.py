@@ -10,7 +10,7 @@ from nltk.util import ngrams
 
 correct_words = words.words()
 
-text = 'happppppy azmaing intelliengt PogChamp GayPride'
+text = 'happppppy azmaing intelliengt helpppppp GayPride'
 
 
 def correct_string(text):

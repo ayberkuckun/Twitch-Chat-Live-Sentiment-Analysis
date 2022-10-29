@@ -3,8 +3,11 @@ import json
 import time
 
 
-producer = Producer({'bootstrap.servers': 'localhost:9092'})
-print('[LOG] Producer initialized')
+def init_producer(ip='localhost', port=9092):
+    socket_address = ip + ":" + str(port)
+    producer = Producer({'bootstrap.servers': socket_address})
+    print('[LOG] Producer initialized')
+    return producer
 
 
 def receipt(err, msg):
@@ -19,21 +22,19 @@ def receipt(err, msg):
     else:
         message = 'Topic: {} / Value: {}\n'.format(
             msg.topic(), msg.value().decode('utf-8'))
-        # logger.info(message)
-        print(message)
+        print('[Producer]', message)
 
 
-def send_messages():
-    chat_message = "Hello World!"
-    for i in range(100):
-        data = {
-            'chat_content': chat_message + ' ' + str(i)}
-        m = json.dumps(data)
-        producer.poll(1)
-        producer.produce('twitch_chat', m.encode('utf-8'), callback=receipt)
-        producer.flush()
-        time.sleep(3)
+def send_message(producer, msg):
+    data = {
+        'chat_content': msg}
+    m = json.dumps(data)
+    producer.poll(1)
+    producer.produce('twitch_chat', m.encode('utf-8'), callback=receipt)
+    producer.flush()
 
 
 if __name__ == '__main__':
-    send_messages()
+    chat_message = "Hello World!"
+    producer = init_producer()
+    send_message(producer, chat_message)

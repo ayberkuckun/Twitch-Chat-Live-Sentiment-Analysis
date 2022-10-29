@@ -11,10 +11,10 @@ def sentimentAnalyzeSentence(sentence):
     return sentiment
 
 def singleSentimentScore(scores):
-    label = scores["label"]
-    score = scores["score"]
+    label = scores[0]["label"]
+    score = scores[0]["score"]
     if label == "Neutral":
-        return 0
+        return 0.0
     elif label == "Positive":
         return score
     elif label == "Negative":

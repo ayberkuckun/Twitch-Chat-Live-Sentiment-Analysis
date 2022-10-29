@@ -34,7 +34,6 @@ print("CHECKPOINT - 1")
 df = df.withColumn('message', my_udf('value'))
 df = df.drop('value')
 df = df.withColumn('sentiment_score', my_udf2('message'))
-# df = df.filter(df.sentiment_score != 0)
 
 df = df \
     .writeStream \

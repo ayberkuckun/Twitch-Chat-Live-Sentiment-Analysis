@@ -3,7 +3,8 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup as soup
 import time
-from model import sentimentAnalyzeSentence
+from visual import update, visualize
+from sentiment import sentimentAnalyzeSentence, singleSentimentScore
 
 TWITCH_USERNAME = 'dota2ti' # channel for analysis
 TICK_FREQUENCY = 1.0 # message pulling rate
@@ -15,7 +16,7 @@ if __name__ == "__main__":
     driver.get(f"https://www.twitch.tv/{TWITCH_USERNAME}")
 
     last_tuple = 'text'
-    while True:
+    for _ in range(25):
         html = driver.page_source
         page_soup = soup(html, features='html.parser')
         tuples = page_soup.find_all(
@@ -39,6 +40,10 @@ if __name__ == "__main__":
                     # good to discard these messages
                     if sentiment["neu"] != 1.0:
                         print(message)
-                        print(str(sentiment))
+                        single_sentiment_score = singleSentimentScore(sentiment)
+                        print(str(single_sentiment_score))
+                        update(single_sentiment_score)
                         print("\n")
         time.sleep(TICK_FREQUENCY)
+
+    visualize()

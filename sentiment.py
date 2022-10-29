@@ -8,3 +8,6 @@ analyzer = SentimentIntensityAnalyzer()
 def sentimentAnalyzeSentence(sentence):
     scores = analyzer.polarity_scores(sentence)
     return scores
+
+def singleSentimentScore(scores):
+    return scores["pos"]-scores["neg"]

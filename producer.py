@@ -1,6 +1,5 @@
 from confluent_kafka import Producer
 import json
-import time
 
 
 def init_producer(ip='localhost', port=9092):
@@ -31,7 +30,7 @@ def send_message(producer, msg):
     m = json.dumps(data)
     producer.poll(1)
     producer.produce('twitch_chat', m.encode('utf-8'), callback=receipt)
-    producer.flush()
+    # producer.flush()
 
 
 if __name__ == '__main__':

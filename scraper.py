@@ -5,18 +5,21 @@ from bs4 import BeautifulSoup as soup
 import time
 from visual import update, visualize
 from sentiment import sentimentAnalyzeSentence, singleSentimentScore
+from producer import init_producer, send_message
 
-TWITCH_USERNAME = 'dota2ti' # channel for analysis
-TICK_FREQUENCY = 1.0 # message pulling rate
+TWITCH_USERNAME = 'trainwreckstv'  # channel for analysis
+TICK_FREQUENCY = 1.0  # message pulling rate
 
 if __name__ == "__main__":
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(service=Service(
+        ChromeDriverManager().install()), options=options)
     driver.get(f"https://www.twitch.tv/{TWITCH_USERNAME}")
+    producer = init_producer()
 
     last_tuple = 'text'
-    for _ in range(25):
+    while True:
         html = driver.page_source
         page_soup = soup(html, features='html.parser')
         tuples = page_soup.find_all(
@@ -25,7 +28,7 @@ if __name__ == "__main__":
         idx = 0
         try:
             idx = tuples.index(last_tuple)
-            tuples = tuples[idx+1:]
+            tuples = tuples[idx + 1:]
         except:
             pass
         if len(tuples) > 0:
@@ -34,16 +37,18 @@ if __name__ == "__main__":
                 message = tple.split(':')[1]
                 message = message.strip()
                 if message != '':
-                    sentiment = sentimentAnalyzeSentence(message)
+                    send_message(producer, message)  # sends message to kafka
+                    # sentiment = sentimentAnalyzeSentence(message)
 
-                    # neutral 1.0 means 0 information about the messages sentiment
-                    # good to discard these messages
-                    if sentiment["neu"] != 1.0:
-                        print(message)
-                        single_sentiment_score = singleSentimentScore(sentiment)
-                        print(str(single_sentiment_score))
-                        update(single_sentiment_score)
-                        print("\n")
+                    # # neutral 1.0 means 0 information about the messages sentiment
+                    # # good to discard these messages
+                    # if sentiment["neu"] != 1.0:
+                    #     single_sentiment_score = singleSentimentScore(
+                    #         sentiment)
+                    #     print(str(single_sentiment_score))
+                    #     update(single_sentiment_score)
+                    #     print("\n")
         time.sleep(TICK_FREQUENCY)
 
-    visualize()
+    driver.close()
+    # visualize()

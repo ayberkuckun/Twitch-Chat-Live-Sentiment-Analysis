@@ -130,7 +130,7 @@ dmypy.json
 .idea/
 
 # custom files
-testing.py
+test.py
 .metals/*
 .metals
 .vscode/

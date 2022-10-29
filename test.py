@@ -2,11 +2,13 @@ from pyspark.sql import SparkSession
 import os
 import pyspark.sql.functions as F
 import pyspark.sql.types as T
+from sentiment import sentimentAnalyzeSentence
 
 def byteToString(byte):
     return (byte.decode('utf-8', errors="replace")[18:])[:-2]
 # if we assume that my_func returns a string
 my_udf = F.UserDefinedFunction(byteToString, T.StringType())
+my_udf2 = F.UserDefinedFunction(sentimentAnalyzeSentence, T.DoubleType())
 
 # os.environ['HADOOP_HOME'] = 'C://Users//altan//Desktop//winutils-master//hadoop-2.6.0'
 os.environ["JAVA_HOME"] = "C://Program Files//Java//jdk-19"
@@ -31,6 +33,7 @@ print("CHECKPOINT - 1")
 
 df = df.withColumn('message', my_udf('value'))
 df = df.drop('value')
+df = df.withColumn('message', my_udf2('message'))
 
 df = df \
     .writeStream \

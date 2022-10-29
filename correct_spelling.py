@@ -1,12 +1,12 @@
 import nltk
-nltk.download('omw-1.4')
-nltk.download('punkt')
-nltk.download('words')
-
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import words
 from nltk.metrics.distance import jaccard_distance
 from nltk.util import ngrams
+
+nltk.download('omw-1.4')
+nltk.download('punkt')
+nltk.download('words')
 
 correct_words = words.words()
 

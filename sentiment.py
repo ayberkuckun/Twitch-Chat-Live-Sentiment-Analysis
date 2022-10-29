@@ -6,8 +6,9 @@ sentiment_task = pipeline("sentiment-analysis", model=model)
 analyzer = SentimentIntensityAnalyzer()
 
 def sentimentAnalyzeSentence(sentence):
-    scores = analyzer.polarity_scores(sentence)
-    return scores
+    scores = sentiment_task(sentence)
+    sentiment = singleSentimentScore(scores)
+    return sentiment
 
 def singleSentimentScore(scores):
     return scores["pos"]-scores["neg"]

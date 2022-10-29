@@ -11,4 +11,11 @@ def sentimentAnalyzeSentence(sentence):
     return sentiment
 
 def singleSentimentScore(scores):
-    return scores["pos"]-scores["neg"]
+    label = scores["label"]
+    score = scores["score"]
+    if label == "Neutral":
+        return 0
+    elif label == "Positive":
+        return score
+    elif label == "Negative":
+        return -score

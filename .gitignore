@@ -133,3 +133,4 @@ dmypy.json
 testing.py
 .metals/*
 .metals
+.vscode/

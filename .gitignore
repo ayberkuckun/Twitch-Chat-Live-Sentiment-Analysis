@@ -131,3 +131,5 @@ dmypy.json
 
 # custom files
 testing.py
+.metals/*
+.metals

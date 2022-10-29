@@ -10,3 +10,5 @@ nltk
 kafka-python
 matplotlib
 tensorflow
+# pyspark
+pyspark==2.4.6

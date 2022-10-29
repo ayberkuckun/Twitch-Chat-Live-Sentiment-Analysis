@@ -19,7 +19,7 @@ if __name__ == "__main__":
     producer = init_producer()
 
     last_tuple = 'text'
-    for _ in range(25):
+    while True:
         html = driver.page_source
         page_soup = soup(html, features='html.parser')
         tuples = page_soup.find_all(
@@ -37,19 +37,18 @@ if __name__ == "__main__":
                 message = tple.split(':')[1]
                 message = message.strip()
                 if message != '':
-                    print(message)
                     send_message(producer, message)  # sends message to kafka
-                    sentiment = sentimentAnalyzeSentence(message)
+                    # sentiment = sentimentAnalyzeSentence(message)
 
-                    # neutral 1.0 means 0 information about the messages sentiment
-                    # good to discard these messages
-                    if sentiment["neu"] != 1.0:
-                        single_sentiment_score = singleSentimentScore(
-                            sentiment)
-                        print(str(single_sentiment_score))
-                        update(single_sentiment_score)
-                        print("\n")
+                    # # neutral 1.0 means 0 information about the messages sentiment
+                    # # good to discard these messages
+                    # if sentiment["neu"] != 1.0:
+                    #     single_sentiment_score = singleSentimentScore(
+                    #         sentiment)
+                    #     print(str(single_sentiment_score))
+                    #     update(single_sentiment_score)
+                    #     print("\n")
         time.sleep(TICK_FREQUENCY)
 
     driver.close()
-    visualize()
+    # visualize()

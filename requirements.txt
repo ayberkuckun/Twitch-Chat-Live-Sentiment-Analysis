@@ -2,3 +2,5 @@ selenium
 webdriver-manager
 packaging
 beautifulsoup4
+nltk
+kafka-python

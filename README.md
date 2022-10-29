@@ -1,6 +1,6 @@
-# twitch_stream_processing
+# Twitch Chat Live Sentiment Analysis
 
 Task: 
-i) Web Scraper 
-ii) Stream Processing Pipeline with Spark 
-iii) Life Inference
+- Web Scraper 
+- Stream Processing Pipeline with Spark 
+- Life Inference

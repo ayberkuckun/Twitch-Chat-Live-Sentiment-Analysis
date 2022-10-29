@@ -9,8 +9,8 @@ def byteToString(byte):
 my_udf = F.UserDefinedFunction(byteToString, T.StringType())
 
 # os.environ['HADOOP_HOME'] = 'C://Users//altan//Desktop//winutils-master//hadoop-2.6.0'
-os.environ["JAVA_HOME"] = "C://Program Files//Java//jdk-19"
-os.environ["PYSPARK_PYTHON"] = "python"
+# os.environ["JAVA_HOME"] = "C://Program Files//Java//jdk-19"
+# os.environ["PYSPARK_PYTHON"] = "python"
 spark_version = '3.3.1'
 os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:{} test.py'.format(spark_version)
 spark = (

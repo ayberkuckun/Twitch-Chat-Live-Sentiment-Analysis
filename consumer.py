@@ -33,6 +33,9 @@ def receive_messages():
             time_list[counter] = result_dict["window"]["end"][11:16]
             value_list[counter] = result_dict["value"]
             plt.bar(time_list, value_list, align='center')
+            plt.title(f'{result_dict["topic"].capitalize()} Twitch Chat Sentiment Analysis')
+            plt.xlabel("Time")
+            plt.ylabel("Score")
             plt.show()
 
         else:
@@ -42,6 +45,9 @@ def receive_messages():
             time_list[-1] = result_dict["window"]["start"][11:16]
             value_list[-1] = result_dict["value"]
             plt.bar(time_list, value_list, align='center')
+            plt.title(f'{result_dict["topic"].capitalize()} Twitch Chat Sentiment Analysis')
+            plt.xlabel("Time")
+            plt.ylabel("Score")
             plt.show()
 
         counter += 1

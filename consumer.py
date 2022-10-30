@@ -31,7 +31,11 @@ def receive_messages():
         result_dict = ast.literal_eval(data)
         if counter < length:
             time_list[counter] = result_dict["window"]["end"][11:16]
-            value_list[counter] = result_dict["value"]
+            if counter > 0:
+                value_list[counter] = 0.5 * value_list[counter - 1] + 0.5 * result_dict["value"]
+            else:
+                value_list[counter] = result_dict["value"]
+
             plt.bar(time_list, value_list, align='center')
             plt.title(f'{result_dict["topic"].capitalize()} Twitch Chat Sentiment Analysis')
             plt.xlabel("Time")
@@ -42,8 +46,8 @@ def receive_messages():
             time_list[:-1] = time_list[1:]
             value_list[:-1] = value_list[1:]
 
-            time_list[-1] = result_dict["window"]["start"][11:16]
-            value_list[-1] = result_dict["value"]
+            time_list[-1] = result_dict["window"]["end"][11:16]
+            value_list[-1] = 0.5 * value_list[-2] + 0.5 * result_dict["value"]
             plt.bar(time_list, value_list, align='center')
             plt.title(f'{result_dict["topic"].capitalize()} Twitch Chat Sentiment Analysis')
             plt.xlabel("Time")

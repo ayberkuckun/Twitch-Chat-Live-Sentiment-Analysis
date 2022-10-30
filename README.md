@@ -34,7 +34,8 @@
 **Start the Sentiment Analyzer**
 
     • The Sentiment Analyzer is located in analyzer.py
-    • Type python analyzer.py –channel <channel_name> to start the producer.
+    • Manually change the TWITCH_USERNAME_LIST variable in the code with your channel.
+    • Type python analyzer.py to start the analyzer.
     • The analyzer now is going to consume the messages sent to Kafka, process them and send
     the results of each window back to Kafka.
 

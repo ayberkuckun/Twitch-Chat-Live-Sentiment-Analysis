@@ -133,3 +133,7 @@ dmypy.json
 .metals/*
 .metals
 .vscode/
+
+checkpoint/
+output/
+

@@ -30,10 +30,10 @@ def send_message(producer, channel, msg):
     m = json.dumps(data)
     producer.poll(1)
     producer.produce(channel, m.encode('utf-8'), callback=receipt)
-    # producer.flush()
 
 
 if __name__ == '__main__':
     chat_message = "Hello World!"
+    channel = "twitch"
     producer = init_producer()
-    send_message(producer, chat_message)
+    send_message(producer, channel, chat_message)

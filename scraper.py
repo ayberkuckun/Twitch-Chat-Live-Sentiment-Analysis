@@ -3,14 +3,23 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup as soup
 import time
-from visual import update, visualize
-from sentiment import sentimentAnalyzeSentence, singleSentimentScore
 from producer import init_producer, send_message
+import argparse
 
-TWITCH_USERNAME_LIST = ['riotgames']  # channel for analysis
 TICK_FREQUENCY = 1.0  # message pulling rate
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--channel', '-c',
+        type=str,
+        help='Twitch Channel Name',
+    )
+    args = parser.parse_args()
+
+    TWITCH_USERNAME_LIST = [args.channel]  # channel for analysis
+
+
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     producer = init_producer()
@@ -42,18 +51,5 @@ if __name__ == "__main__":
                     message = message.strip()
                     if message != '':
                         send_message(producer, channel, message)  # sends message to kafka
-                        # sentiment = sentimentAnalyzeSentence(message)
 
-                        # # neutral 1.0 means 0 information about the messages sentiment
-                        # # good to discard these messages
-                        # if sentiment["neu"] != 1.0:
-                        #     single_sentiment_score = singleSentimentScore(
-                        #         sentiment)
-                        #     print(str(single_sentiment_score))
-                        #     update(single_sentiment_score)
-                        #     print("\n")
         time.sleep(TICK_FREQUENCY)
-
-    # for driver in drivers:
-    #     driver.close()
-    # visualize()

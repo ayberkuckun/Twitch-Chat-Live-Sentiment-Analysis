@@ -41,6 +41,14 @@ df = df.withColumn('message', my_udf('value'))
 df = df.drop('value')
 df = df.withColumn('sentiment_score', my_udf2('message'))
 
+df = (df 
+    .withWatermark("timestamp", "1 minute")
+    .groupBy([F.window('timestamp', '2 minute', '1 minute')])
+    .agg(
+         {'sentiment_score': 'mean'}
+    )
+)
+
 df = df \
     .filter(F.col("sentiment_score") != 0.0) \
     .writeStream \

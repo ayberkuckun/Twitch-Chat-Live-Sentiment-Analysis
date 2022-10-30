@@ -6,11 +6,22 @@ import time
 from visual import update, visualize
 from sentiment import sentimentAnalyzeSentence, singleSentimentScore
 from producer import init_producer, send_message
+import argparse
 
-TWITCH_USERNAME_LIST = ['redbull']  # channel for analysis
 TICK_FREQUENCY = 1.0  # message pulling rate
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--channel', '-c',
+        type=str,
+        help='Twitch Channel Name',
+    )
+    args = parser.parse_args()
+
+    TWITCH_USERNAME_LIST = [args.channel]  # channel for analysis
+
+
     options = webdriver.ChromeOptions()
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     producer = init_producer()

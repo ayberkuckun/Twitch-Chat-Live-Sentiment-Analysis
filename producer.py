@@ -24,12 +24,12 @@ def receipt(err, msg):
         print('[Producer]', message)
 
 
-def send_message(producer, msg):
+def send_message(producer, channel, msg):
     data = {
         'chat_content': msg}
     m = json.dumps(data)
     producer.poll(1)
-    producer.produce('twitch_chat', m.encode('utf-8'), callback=receipt)
+    producer.produce(channel, m.encode('utf-8'), callback=receipt)
     # producer.flush()
 
 

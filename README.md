@@ -1,5 +1,11 @@
 # Twitch Chat Live Sentiment Analysis
 
+## Example Result
+![sentiment](images/sentiment_moving_average.png)
+
+## Architecture
+![architecture](images/architecture_diagram.png)
+
 ## How to run the code
 
 **Prerequisites**

@@ -47,6 +47,3 @@
     • Type python consumer.py to start the consumer
     • The consumer will now receive messages, infer the sentiment, and print the result to the
     console.
-
-
-

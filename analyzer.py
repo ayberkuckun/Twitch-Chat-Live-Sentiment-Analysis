@@ -13,11 +13,8 @@ def byteToString(byte):
 my_udf = F.UserDefinedFunction(byteToString, T.StringType())
 my_udf2 = F.UserDefinedFunction(sentimentAnalyzeSentence, T.DoubleType())
 
-# os.environ['HADOOP_HOME'] = 'C://Users//altan//Desktop//winutils-master//hadoop-2.6.0'
-# os.environ["JAVA_HOME"] = "/etc/java-8-openjdk"
-# os.environ["PYSPARK_PYTHON"] = "python"
 spark_version = '3.3.1'
-os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:{} test.py'.format(
+os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-sql-kafka-0-10_2.12:{} analyzer.py'.format(
     spark_version)
 spark = (
     SparkSession.builder.appName("TwitchChatSentiment")
@@ -36,7 +33,6 @@ df = spark \
     .option("subscribe", TWITCH_USERNAME_LIST) \
     .option("startingOffsets", "latest") \
     .load()
-print("CHECKPOINT - 1")
 
 df = df.withColumn('message', my_udf('value'))
 df = df.drop('value')
@@ -52,20 +48,6 @@ df = (df
            )
       )
 
-print("After aggregation...")
-
-# query = (
-#     df
-#     .writeStream
-#     .format("memory")        # memory = store in-memory table
-#     .queryName("table")     # counts = name of the in-memory table
-#     .outputMode("complete")  # complete = all the counts should be in the table
-#     .start()
-# )
-
-# pdf = spark.sql("select value from table order by window").toPandas()
-# pdf.plot.line(x=pdf.value, y=pdf.value)
-
 df = (df.select(F.to_json(F.struct([F.col(c).alias(c) for c in df.columns]).alias("value")).alias("value")).alias("value")
       .selectExpr("CAST(value AS STRING)")
       .writeStream
@@ -74,19 +56,3 @@ df = (df.select(F.to_json(F.struct([F.col(c).alias(c) for c in df.columns]).alia
       .option("topic", "sentiment_scores")
       .start().awaitTermination()
       )
-
-# df = (df
-#       .writeStream
-#       .outputMode('complete')
-#       .format('console')
-#       .option('truncate', False)
-#       # .trigger()
-#       .start()
-#       )
-
-#     .option("path", "output/") \
-#     .option("checkpointLocation", "checkpoint/") \
-
-#     .option('truncate', False) \
-
-print("CHECKPOINT - 2")

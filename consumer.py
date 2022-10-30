@@ -5,7 +5,7 @@ c = Consumer({'bootstrap.servers': 'localhost:9092',
 print('[LOG] Consumer initialized')
 
 print('Available topics to consume: ', c.list_topics().topics)
-c.subscribe(['twitch_chat'])
+c.subscribe(['sentiment_scores'])
 
 
 def receive_messages():

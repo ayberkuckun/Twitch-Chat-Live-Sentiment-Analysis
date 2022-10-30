@@ -7,7 +7,7 @@ from visual import update, visualize
 from sentiment import sentimentAnalyzeSentence, singleSentimentScore
 from producer import init_producer, send_message
 
-TWITCH_USERNAME_LIST = ['hasanabi']  # channel for analysis
+TWITCH_USERNAME_LIST = ['missmikkaa']  # channel for analysis
 TICK_FREQUENCY = 1.0  # message pulling rate
 
 if __name__ == "__main__":

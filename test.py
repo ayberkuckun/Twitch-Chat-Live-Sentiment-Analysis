@@ -50,12 +50,14 @@ df = (df
 
 print("printing...")
 
-df = df.select('window.start', 'window.end', 'Avg(sentiment_score)') \
+df = df \
     .writeStream \
-    .format('csv') \
-    .option("path", "output/") \
-    .option("checkpointLocation", "checkpoint/") \
+    .outputMode('complete') \
+    .format('console') \
     .start().awaitTermination()
+
+#     .option("path", "output/") \
+#     .option("checkpointLocation", "checkpoint/") \
 
 #     .option('truncate', False) \
 

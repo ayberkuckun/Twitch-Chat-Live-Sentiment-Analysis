@@ -35,7 +35,7 @@ if __name__ == "__main__":
     spark.conf.set("spark.sql.streaming.checkpointLocation", "checkpoint/")
     spark.sparkContext.setLogLevel('ERROR')
 
-    TWITCH_USERNAME_LIST = args.channel
+    TWITCH_USERNAME_LIST = str(args.channel)
 
     df = spark \
         .readStream \

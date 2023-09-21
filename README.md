@@ -3,6 +3,8 @@
 ## Example Result
 ![sentiment](images/sentiment_moving_average.png)
 
+The final report can be found [here](ID2221_Final_Project.pdf).
+
 ## Architecture
 ![architecture](images/architecture_diagram.png)
 
